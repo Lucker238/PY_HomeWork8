@@ -43,5 +43,8 @@ def lets_start():
             case 7:
                 employees = m.read_csv()
                 m.import_json(employees)
+            case 8:
+                employees = m.read_csv()
+                m.import_txt(employees)
             case 9:
                 check = False
