@@ -1,8 +1,8 @@
 
-
 def show_menu() -> int:
     print("\n" + "=" * 40)
     print("Выберите необходимое действие")
+    print("0. Вывести список сотрудников на экран")
     print("1. Найти сотрудника")
     print("2. Сделать выборку сотрудников по должности")
     print("3. Сделать выборку сотрудников по зарплате")
@@ -23,7 +23,7 @@ def get_title() -> str:
 
 def get_salary() -> str:
     print("Введите диапазон зарплаты")
-    return [input('От: '), input('До: ')]
+    return [float(input('От: ')), float(input('До: '))]
 
 def get_new_employee() -> str:
     last_name = input("Введите фамилию: ")
@@ -33,6 +33,13 @@ def get_new_employee() -> str:
     salary = input("Введите зарплату: ")
     return f'{last_name},{first_name},{job_title},{phone_number},{salary}'
 
-def get_id_delete() -> str:
-    id_delete = input('Введите ID сотрудника для удаления: ')
+def get_id() -> str:
+    return input('Введите ID сотрудника: ')
+
+def get_edit_data() -> list:
+    output = []
+    output.append(input('Введите новую должность: '))
+    output.append(input('Введите новый номер телефона: '))
+    output.append(input('Введите новую зарплату: '))
+    return output
 

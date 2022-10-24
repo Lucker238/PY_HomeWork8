@@ -1,12 +1,3 @@
-    # print("1. Найти сотрудника")
-    # print("2. Сделать выборку сотрудников по должности")
-    # print("3. Сделать выборку сотрудников по зарплате")
-    # print("4. Добавить сотрудника")
-    # print("5. Удалить сотрудника")
-    # print("6. Обновить данные сотрудника")
-    # print("7. Экспортировать данные в формате json")
-    # print("8. Экспортировать данные в формате cmv")
-    # print("9. Закончить работу")
 
 def read_csv() -> list:
     file = open('database.csv', 'r')
@@ -21,30 +12,41 @@ def read_csv() -> list:
 
 def find_employee(emp_list: list, emp_data: str):
     for employee in emp_list:
-        for k, v in employee.items():
-            if emp_data.lower() in v.lower():
-                print(employee)
-                break
+        if emp_data in employee.values():
+            print(employee)
+            continue
 
 def show_employees_title(emp_list: list, title: str):
     for employee in emp_list:
         if title.lower() in employee["Должность"].lower():
             print(employee)
 
-def show_employees_salary(emp_list: list, salary: str):
+def show_employees_salary(emp_list: list, salary: list):
     for employee in emp_list:
-        if salary in employee["Зарплата"]:
+        if salary[0] <= float(employee["Зарплата"]) <= salary[1]:
             print(employee)
 
 def add_employee(emp_data: str):
     with open('database.csv', 'a') as file:
-        file.write(emp_data)
+        file.write(f'{emp_data}\n')
 
-def delete_employee(emp_list: list, delete_id: str):
+def delete_employee(emp_list: list, delete_id: str) -> list:
     for employee in emp_list:
-        for k,v in employee.items():
-            if delete_id == v:
-                emp_list.remove(employee)
+        if employee['ID'] == delete_id:
+            print(f'{employee}\nДанные удалены')
+            emp_list.remove(employee)
+    return emp_list
+
+def edit_employee(emp_list: list, edit_id: str, new_data: list) -> list:
+    for i in emp_list:
+        if i['ID'] == edit_id:
+            print(i)
+            i["Должность"] = new_data[0]
+            i["Номер телефона"] = new_data[1]
+            i["Зарплата"] = new_data[2]       
+    return emp_list
+
+def rewrite_csv(emp_list: list):
     file = open('database.csv', 'w')
     for emp in emp_list:
         line = ''
@@ -53,5 +55,24 @@ def delete_employee(emp_list: list, delete_id: str):
                 continue
             line += v + ','
         file.write(f'{line[:-1]}\n')
-delete_employee(read_csv(),input())
+    file.close()
 
+def show_all(data: list):
+    for i in data:
+        for k,v in i.items():
+            print(f"{k}: {v}", end='; ')
+        print()
+
+def import_json(emp_list: list):
+    file = open('database.json','w')
+    for i in emp_list:
+        for k,v in i.items():
+            file.write(f'{k}: {v}; ')
+        file.write(f'\n')
+
+def import_txt(emp_list: list):
+    file = open('database.txt','w')
+    for i in emp_list:
+        for k,v in i.items():
+            file.write(f'{k}: {v}; ')
+        file.write(f'\n')
